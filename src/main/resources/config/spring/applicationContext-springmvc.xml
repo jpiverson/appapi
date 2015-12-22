@@ -54,8 +54,8 @@
 	<!--设置Session拦截器 -->
 	<mvc:interceptors>
 	    <mvc:interceptor>  
-           <mvc:mapping path="/interfaces/**" />
-           <bean class="com.jipengblog.appapi.web.interceptor.InterfaceInterceptor"></bean>  
+           <mvc:mapping path="/api/**" />
+           <bean class="com.jipengblog.appapi.web.interceptor.ApiInterceptor"></bean>  
         </mvc:interceptor>
 	</mvc:interceptors>
 
