@@ -3,10 +3,11 @@ package com.jipengblog.appapi.entity.bo;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.gson.GsonBuilder;
-import com.jipengblog.appapi.common.SysCons;
-import com.jipengblog.appapi.web.utils.security.SignatureUtils;
-import com.jipengblog.appapi.web.utils.security.TrippleDes;
-import com.jipengblog.appapi.web.utils.security.enums.Algorithm;
+import com.jipengblog.appapi.entity.User;
+
+import site.penn.common.base.Constants;
+import site.penn.common.security.SignatureUtils;
+import site.penn.common.security.TrippleDesUtils;
 
 /**
  * 接口请求的数据格式封装
@@ -36,8 +37,8 @@ public class ReqGson {
 		if (StringUtils.isEmpty(this.sign) || this.timestamp <= 0) {
 			return false;
 		}
-		SignatureUtils utils = new SignatureUtils(Algorithm.MD5);
-		String toEncrypt = this.params + SysCons.SIGN_KEY + this.timestamp;
+		SignatureUtils utils = new SignatureUtils();
+		String toEncrypt = this.params + Constants.SIGN_KEY + this.timestamp;
 		String toSign = utils.encrypt(toEncrypt);
 		if (this.sign.equalsIgnoreCase(toSign)) {
 			return true;
@@ -87,14 +88,20 @@ public class ReqGson {
 		ReqGson req = new ReqGson();
 		long timestamp = System.currentTimeMillis();
 		req.setTimestamp(timestamp);
-		String params = "{'a':1}";
+
+		// 设置参数
+		User user = new User();
+		user.setMobile("18520808831");
+		String params = new GsonBuilder().create().toJson(user);
+		// 设置参数
+
 		req.setParams(params);
-		SignatureUtils utils = new SignatureUtils(Algorithm.MD5);
-		String toEncrypt = params + SysCons.SIGN_KEY + timestamp;
+		SignatureUtils utils = new SignatureUtils();
+		String toEncrypt = params + Constants.SIGN_KEY + timestamp;
 		String toSign = utils.encrypt(toEncrypt);
 		req.setSign(toSign);
 		String json = new GsonBuilder().create().toJson(req);
 		System.out.println(json);
-		System.out.println(TrippleDes.encrypt(json));
+		System.out.println(TrippleDesUtils.encrypt(json));
 	}
 }

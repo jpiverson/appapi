@@ -12,7 +12,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jipengblog.appapi.entity.bo.ReqGson;
 import com.jipengblog.appapi.entity.bo.RespGson;
-import com.jipengblog.appapi.web.utils.security.TrippleDes;
+
+import site.penn.common.security.TrippleDesUtils;
 
 public class ApiInterceptor extends HandlerInterceptorAdapter {
 
@@ -35,11 +36,15 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 		try {
 			String reqCipherText = IOUtils.toString(request.getInputStream());
 			logger.info("原始请求数据:::" + reqCipherText);
-			String reqPlainText = TrippleDes.decrypt(reqCipherText);
-			logger.info("解密请求数据:::" + reqPlainText);
+			long start = System.currentTimeMillis();
+			String reqPlainText = TrippleDesUtils.decrypt(reqCipherText);
+			logger.info("解密请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			start = System.currentTimeMillis();
 			ReqGson reqGson = new Gson().fromJson(reqPlainText, ReqGson.class);
-			logger.info("封装请求数据:::" + reqPlainText);
+			logger.info("封装请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			start = System.currentTimeMillis();
 			String errorMsg = reqVerificate(reqGson);
+			logger.info("验证请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
 			if (NO_ERROR_MSG.equalsIgnoreCase(errorMsg)) {
 				logger.info("请求验证通过!准备业务处理.");
 				request.setAttribute("params", reqGson.getParams());

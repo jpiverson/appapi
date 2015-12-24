@@ -10,10 +10,11 @@ import com.google.gson.GsonBuilder;
 import com.jipengblog.appapi.entity.AppVersion;
 import com.jipengblog.appapi.entity.bo.RespGson;
 import com.jipengblog.appapi.service.AppVersionService;
-import com.jipengblog.appapi.service.UserService;
 
 /**
  * 关于我们
+ * 
+ * 版本检查
  * 
  * @author penn
  *
@@ -23,7 +24,6 @@ public class AboutController extends ParentController {
 
 	@Autowired
 	AppVersionService appVersionService;
-	UserService userService;
 
 	@RequestMapping(value = "/about/checkVersion", method = RequestMethod.POST, produces = "application/json; charset=UTF-8")
 	@ResponseBody
@@ -32,5 +32,4 @@ public class AboutController extends ParentController {
 		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, appVersion);
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(resp);
 	}
-
 }

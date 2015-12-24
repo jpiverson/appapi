@@ -13,7 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.google.common.base.MoreObjects;
-import com.jipengblog.appapi.web.utils.time.DateUtils;
+
+import site.penn.common.datetime.DatetimeUtils;
 
 @Entity
 @Table(name = "user_device")
@@ -51,7 +52,7 @@ public class UserDevice implements Serializable {
 	public String toString() {
 		return MoreObjects.toStringHelper(this).add("deviceId", deviceId).add("mobile", mobile).add("brand", brand)
 				.add("os", os).add("osVersion", osVersion).add("deviceToken", deviceToken)
-				.add("createTime", DateUtils.dateToString(createTime)).toString();
+				.add("createTime", DatetimeUtils.dateToString(createTime)).toString();
 	}
 
 	// getter and setter

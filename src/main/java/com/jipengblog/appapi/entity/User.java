@@ -18,7 +18,8 @@ import org.hibernate.annotations.Type;
 
 import com.google.common.base.MoreObjects;
 import com.jipengblog.appapi.entity.constant.Sex;
-import com.jipengblog.appapi.web.utils.time.DateUtils;
+
+import site.penn.common.datetime.DatetimeUtils;
 
 @Entity
 @Table(name = "user")
@@ -36,30 +37,31 @@ public class User implements Serializable {
 	@Column(nullable = false, length = 32)
 	private String loginPass;// 登录密码
 
-	@Column(nullable = false, length = 50, unique = true)
-	private String email;// 用户登记的手机号
+	@Column(nullable = true, length = 50, unique = true)
+	private String email;// 用户登记的邮箱
 
 	@Column(nullable = true, length = 20, unique = true)
 	private String nickName;// 用户昵称
 
+	@Column
 	@Enumerated(EnumType.STRING)
 	private Sex sex;// 性别
 
-	@Column(nullable = true, length = 200, unique = false)
+	@Column(length = 200)
 	private String avatar; // 头像
 
-	@Column(nullable = false)
+	@Column
 	@Type(type = "yes_no")
 	private Boolean mobileVer;// 手机是否验证
 
-	@Column(nullable = false)
+	@Column
 	@Type(type = "yes_no")
 	private Boolean emailVer;// 邮箱是否验证
 
-	@Column(nullable = false, length = 200, unique = false)
+	@Column(length = 100)
 	private String description; // 头像
 
-	@Column(nullable = false)
+	@Column
 	@Type(type = "yes_no")
 	private Boolean enabled;// 用户状态
 
@@ -68,7 +70,7 @@ public class User implements Serializable {
 	private Date registerTime;// 注册时间
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = true)
+	@Column(nullable = false)
 	private Date lastLoginTime;// 最近一次登录时间
 
 	@Override
@@ -76,8 +78,8 @@ public class User implements Serializable {
 		return MoreObjects.toStringHelper(this).add("userId", userId).add("mobile", mobile).add("email", email)
 				.add("nickName", nickName).add("sex", sex.toString()).add("avatar", avatar).add("mobileVer", mobileVer)
 				.add("emailVer", emailVer).add("description", description).add("enabled", enabled)
-				.add("registerTime", DateUtils.dateToString(registerTime))
-				.add("lastLoginTime", DateUtils.dateToString(lastLoginTime)).toString();
+				.add("registerTime", DatetimeUtils.dateToString(registerTime))
+				.add("lastLoginTime", DatetimeUtils.dateToString(lastLoginTime)).toString();
 	}
 
 	// getter and setter

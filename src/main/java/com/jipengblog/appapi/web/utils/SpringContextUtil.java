@@ -1,7 +1,5 @@
 package com.jipengblog.appapi.web.utils;
 
-import net.sf.json.JSONObject;
-
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -26,6 +24,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 		return applicationContext.getBean(name);
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Object getBean(String name, Class requiredType)
 			throws BeansException {
 		return applicationContext.getBean(name, requiredType);
@@ -40,6 +39,7 @@ public class SpringContextUtil implements ApplicationContextAware {
 		return applicationContext.isSingleton(name);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static Class getType(String name)
 			throws NoSuchBeanDefinitionException {
 		return applicationContext.getType(name);
