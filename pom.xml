@@ -19,8 +19,7 @@
 			<groupId>site.penn</groupId>
 			<artifactId>common</artifactId>
 			<version>1.0.0</version>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/common.jar</systemPath>
+			<type>jar</type>
 		</dependency>
 
 		<dependency>
