@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.jipengblog.appapi.entity.Superid;
-import com.jipengblog.appapi.entity.User;
+import com.jipengblog.appapi.entity.UserInfo;
+import com.jipengblog.appapi.entity.UserAccount;
 import com.jipengblog.appapi.repository.BaseRepository;
 import com.jipengblog.appapi.service.UserService;
 
@@ -14,49 +14,49 @@ import com.jipengblog.appapi.service.UserService;
 public class UserServerImpl implements UserService {
 
 	@Autowired
-	private BaseRepository<User, Long> userRepository;
+	private BaseRepository<UserAccount, Long> accountRepository;
 
 	@Autowired
-	private BaseRepository<Superid, Long> superidRepository;
+	private BaseRepository<UserInfo, Long> infoRepository;
 
 	@Override
-	public User findByMobile(String mobile) {
-		return userRepository.getOneByHQL("from User where mobile = ?0", mobile);
+	public UserAccount findAccountByMobile(String mobile) {
+		return accountRepository.getOneByHQL("from UserAccount where mobile = ?0", mobile);
 	}
 
 	@Override
-	public void saveOrUpdate(User user) {
-		userRepository.saveOrUpdate(user);
+	public void saveOrUpdate(UserAccount userAccount) {
+		accountRepository.saveOrUpdate(userAccount);
 	}
 
 	@Override
-	public void save(User user) {
-		userRepository.save(user);
+	public void save(UserAccount userAccount) {
+		accountRepository.save(userAccount);
 	}
 
 	@Override
-	public void update(User user) {
-		userRepository.update(user);
+	public void update(UserAccount userAccount) {
+		accountRepository.update(userAccount);
 	}
 
 	@Override
-	public Superid findByPhone(String phone) {
-		return superidRepository.getOneByHQL("from Superid where phone = ?0", phone);
+	public UserInfo findInfoByMobile(String mobile) {
+		return infoRepository.getOneByHQL("from UserInfo where mobile = ?0", mobile);
 	}
 
 	@Override
-	public void saveOrUpdate(Superid superid) {
-		superidRepository.saveOrUpdate(superid);
+	public void saveOrUpdate(UserInfo userInfo) {
+		infoRepository.saveOrUpdate(userInfo);
 	}
 
 	@Override
-	public void save(Superid superid) {
-		superidRepository.save(superid);
+	public void save(UserInfo userInfo) {
+		infoRepository.save(userInfo);
 	}
 
 	@Override
-	public void update(Superid superid) {
-		superidRepository.update(superid);
+	public void update(UserInfo userInfo) {
+		infoRepository.update(userInfo);
 	}
 
 }

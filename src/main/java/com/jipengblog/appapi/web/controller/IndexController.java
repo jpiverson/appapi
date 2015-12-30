@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jipengblog.appapi.entity.Superid;
-import com.jipengblog.appapi.entity.User;
+import com.jipengblog.appapi.entity.UserAccount;
+import com.jipengblog.appapi.entity.UserInfo;
 import com.jipengblog.appapi.service.UserService;
+import com.jipengblog.appapi.web.bo.MobsmsBo;
 import com.jipengblog.appapi.web.bo.SuperidBo;
 import com.jipengblog.appapi.web.utils.RespGson;
 
-import site.penn.common.base.Constants;
 import site.penn.common.security.SignatureUtils;
 
 /**
@@ -35,22 +35,32 @@ public class IndexController extends ParentController {
 	@RequestMapping(value = "/login/mobsms", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginMobsms(@ModelAttribute("params") String params) {
-		User user = new Gson().fromJson(params, User.class);
-		User existUser = userService.findByMobile(user.getMobile());
-		if (existUser == null) {
-			existUser = new User();
+		MobsmsBo bo = new Gson().fromJson(params, MobsmsBo.class);
+		UserAccount account = userService.findAccountByMobile(bo.getPhone());
+		if (account == null) {
+			account = new UserAccount();
+			account.setAccount(bo.getPhone());
+			account.setMobile(bo.getPhone());
+			account.setMobileVer(true);
+			SignatureUtils utils = new SignatureUtils();
+			account.setPassword(utils.encrypt(bo.getPhone()));
+			account.setEnabled(true);
+			account.setDescription("mob短信注册");
+			account.setRegisterTime(new Date());
+			userService.save(account);
 		}
 
-		existUser.setMobile(user.getMobile());
-		existUser.setMobileVer(true);
-		SignatureUtils utils = new SignatureUtils();
-		existUser.setLoginPass(utils.encrypt(user.getMobile()));
-		existUser.setAvatar(Constants.DEFAULT_AVATAR);
-		existUser.setEnabled(true);
-		existUser.setRegisterTime(new Date());
-		existUser.setLastLoginTime(new Date());
-		userService.saveOrUpdate(existUser);
-		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, existUser);
+		UserInfo info = userService.findInfoByMobile(bo.getPhone());
+		if (info == null) {
+			info = new UserInfo();
+			info.setAvatar(bo.getAvatar());
+			info.setNickName(bo.getNickName());
+			info.setRegioncode(bo.getCountry());
+			info.setMobile(bo.getPhone());
+		}
+		info.setLastLoginTime(new Date());
+		userService.save(info);
+		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, account);
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(resp);
 	}
 
@@ -58,29 +68,43 @@ public class IndexController extends ParentController {
 	@ResponseBody
 	public String loginSuperid(@ModelAttribute("params") String params) {
 		SuperidBo bo = new Gson().fromJson(params, SuperidBo.class);
-		Superid superid = userService.findByPhone(bo.getPhone());
-		if (superid == null) {
-			superid = new Superid();
+		// 账号
+		UserAccount account = userService.findAccountByMobile(bo.getPhone());
+		if (account == null) {
+			account = new UserAccount();
+			account.setMobile(bo.getPhone());
+			SignatureUtils utils = new SignatureUtils();
+			account.setPassword(utils.encrypt(bo.getPhone()));
+			account.setRegisterTime(new Date());
+			account.setEnabled(true);
+			account.setDescription("一登注册");
+			userService.save(account);
 		}
-		superid.setPhone(bo.getPhone());
-		superid.setName(bo.getName());
-		superid.setAvatar(bo.getAvatar());
-		superid.setRegioncode(bo.getRegioncode());
-		superid.setGroupUid(bo.getGroupUid());
-		superid.setGender(bo.getPersona().getGender());
-		superid.setGeneration(bo.getPersona().getGeneration());
-		superid.setPersonality(bo.getPersona().getCharacter());
+
+		// 用户信息
+		UserInfo info = userService.findInfoByMobile(bo.getPhone());
+		if (info == null) {
+			info = new UserInfo();
+			info.setMobile(bo.getPhone());
+		}
+		info.setNickName(bo.getName());
+		info.setAvatar(bo.getAvatar());
+		info.setRegioncode(bo.getRegioncode());
+		info.setGender(bo.getPersona().getGender());
+		info.setGeneration(bo.getPersona().getGeneration());
+		info.setPersonality(bo.getPersona().getCharacter());
 		String location = bo.getPersona().getLocation().getCountry() + "," + bo.getPersona().getLocation().getProvince()
 				+ "," + bo.getPersona().getLocation().getCity();
-		superid.setLocation(location);
+		info.setLocation(location);
 		StringBuffer tags = new StringBuffer();
 		for (String tag : bo.getPersona().getTags()) {
 			tags.append(tag + ",");
 		}
-		superid.setTags(tags.toString());
-		superid.setLastLoginTime(new Date());
-		userService.saveOrUpdate(superid);
-		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, null);
+		info.setTags(tags.toString());
+		info.setLastLoginTime(new Date());
+		userService.saveOrUpdate(info);
+
+		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, account);
 		return new GsonBuilder().create().toJson(resp);
 	}
 }

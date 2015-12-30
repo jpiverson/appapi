@@ -13,20 +13,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name = "superid")
-public class Superid implements Serializable {
+@Table(name = "user_info")
+public class UserInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long superidId;// 主键标识
+	private Long infoId;// 主键标识
 
 	@Column(nullable = false, length = 20, unique = true)
-	private String phone;// 注册电话
+	private String mobile;// 注册电话
 
 	@Column(length = 50)
-	private String name;// 昵称
+	private String nickName;// 昵称
 
 	@Column(length = 100)
 	private String avatar;// 头像
@@ -49,38 +49,32 @@ public class Superid implements Serializable {
 	@Column(length = 10)
 	private String personality;// 性格
 
-	@Column(length = 32)
-	private String groupUid;
-
-	@Column(length = 32)
-	private String openId;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date lastLoginTime;// 最近一次登录时间
 
-	public Long getSuperidId() {
-		return superidId;
+	public Long getInfoId() {
+		return infoId;
 	}
 
-	public void setSuperidId(Long superidId) {
-		this.superidId = superidId;
+	public void setInfoId(Long infoId) {
+		this.infoId = infoId;
 	}
 
-	public String getPhone() {
-		return phone;
+	public String getMobile() {
+		return mobile;
 	}
 
-	public void setPhone(String phone) {
-		this.phone = phone;
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 
-	public String getName() {
-		return name;
+	public String getNickName() {
+		return nickName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
 	}
 
 	public String getAvatar() {
@@ -137,22 +131,6 @@ public class Superid implements Serializable {
 
 	public void setPersonality(String personality) {
 		this.personality = personality;
-	}
-
-	public String getGroupUid() {
-		return groupUid;
-	}
-
-	public void setGroupUid(String groupUid) {
-		this.groupUid = groupUid;
-	}
-
-	public String getOpenId() {
-		return openId;
-	}
-
-	public void setOpenId(String openId) {
-		this.openId = openId;
 	}
 
 	public Date getLastLoginTime() {
