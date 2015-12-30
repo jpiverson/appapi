@@ -1,4 +1,4 @@
-package com.jipengblog.appapi.entity.bo;
+package com.jipengblog.appapi.web.utils;
 
 import org.apache.commons.lang.StringUtils;
 

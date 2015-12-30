@@ -18,16 +18,16 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.google.common.base.MoreObjects;
 
 @Entity
-@Table(name = "user_device_report")
-public class UserDeviceReport implements Serializable {
+@Table(name = "report_location")
+public class LocationReport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long reportId;// 主键标识
-	
-	@Column(nullable = false)
+
+	@Column(nullable = false, length = 20)
 	private String mobile;// 手机号码
 
 	@Column(nullable = true, length = 20)
@@ -56,6 +56,9 @@ public class UserDeviceReport implements Serializable {
 
 	@Column(nullable = true, length = 20)
 	private String direction;// 获取手机当前的方向
+
+	@Column(nullable = true, length = 50)
+	private String locationDescribe;;// 语义化结果,类似"XXX附近"
 
 	@Column(nullable = true, length = 200)
 	private String address;// 获取详细地址信息
@@ -105,10 +108,10 @@ public class UserDeviceReport implements Serializable {
 				.add("longitude", longitude).add("latitude", latitude).add("altitude", altitude).add("speed", speed)
 				.add("radius", radius).add("coorType", coorType).add("locType", locType)
 				.add("satelliteNumber", satelliteNumber).add("direction", direction).add("address", address)
-				.add("province", province).add("city", city).add("district", district).add("street", street)
-				.add("streetNumber", streetNumber).add("floor", floor).add("networkLocationType", networkLocationType)
-				.add("cellChangeFlag", cellChangeFlag).add("operators", operators).add("reportTime", reportTime)
-				.toString();
+				.add("locationDescribe", locationDescribe).add("province", province).add("city", city)
+				.add("district", district).add("street", street).add("streetNumber", streetNumber).add("floor", floor)
+				.add("networkLocationType", networkLocationType).add("cellChangeFlag", cellChangeFlag)
+				.add("operators", operators).add("reportTime", reportTime).toString();
 	}
 
 	// getter and setter
@@ -121,7 +124,7 @@ public class UserDeviceReport implements Serializable {
 		this.reportId = reportId;
 	}
 
-	@NotBlank(message="手机号不能为空")
+	@NotBlank(message = "手机号不能为空")
 	public String getMobile() {
 		return mobile;
 	}
@@ -210,6 +213,14 @@ public class UserDeviceReport implements Serializable {
 		this.address = address;
 	}
 
+	public String getLocationDescribe() {
+		return locationDescribe;
+	}
+
+	public void setLocationDescribe(String locationDescribe) {
+		this.locationDescribe = locationDescribe;
+	}
+
 	public String getProvince() {
 		return province;
 	}
@@ -271,10 +282,8 @@ public class UserDeviceReport implements Serializable {
 	}
 
 	public void setCellChangeFlag(String cellChangeFlag) {
-		if ("true".equalsIgnoreCase(cellChangeFlag) 
-				|| "yes".equalsIgnoreCase(cellChangeFlag)
-				|| "y".equalsIgnoreCase(cellChangeFlag)
-				|| "1".equals(cellChangeFlag)) {
+		if ("true".equalsIgnoreCase(cellChangeFlag) || "yes".equalsIgnoreCase(cellChangeFlag)
+				|| "y".equalsIgnoreCase(cellChangeFlag) || "1".equals(cellChangeFlag)) {
 			this.cellChangeFlag = Boolean.TRUE;
 		} else {
 			this.cellChangeFlag = Boolean.FALSE;

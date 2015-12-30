@@ -1,10 +1,9 @@
 package com.jipengblog.appapi.service;
 
+import com.jipengblog.appapi.entity.Superid;
 import com.jipengblog.appapi.entity.User;
 
 public interface UserService {
-
-	User findByUserId(Long userId);
 
 	User findByMobile(String mobile);
 
@@ -14,6 +13,13 @@ public interface UserService {
 
 	void update(User user);
 
-	void delete(User user);
+	// Superid 一登登陆信息
+	
+	Superid findByPhone(String phone);
 
+	void saveOrUpdate(Superid superid);
+
+	void save(Superid superid);
+
+	void update(Superid superid);
 }

@@ -1,4 +1,4 @@
-package com.jipengblog.appapi.entity.bo;
+package com.jipengblog.appapi.web.utils;
 
 /**
  * 接口返回时候的数据格式封装

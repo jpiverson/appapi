@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.jipengblog.appapi.entity.bo.RespGson;
+import com.jipengblog.appapi.web.utils.RespGson;
 
 @Controller
 @RequestMapping(value = "/api")

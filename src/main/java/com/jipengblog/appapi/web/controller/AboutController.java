@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.GsonBuilder;
 import com.jipengblog.appapi.entity.AppVersion;
-import com.jipengblog.appapi.entity.bo.RespGson;
 import com.jipengblog.appapi.service.AppVersionService;
+import com.jipengblog.appapi.web.utils.RespGson;
 
 /**
  * 关于我们

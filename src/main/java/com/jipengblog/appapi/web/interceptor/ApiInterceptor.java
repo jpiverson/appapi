@@ -8,10 +8,11 @@ import org.apache.log4j.Logger;
 import org.springframework.core.NamedThreadLocal;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jipengblog.appapi.entity.bo.ReqGson;
-import com.jipengblog.appapi.entity.bo.RespGson;
+import com.jipengblog.appapi.web.utils.ReqGson;
+import com.jipengblog.appapi.web.utils.RespGson;
 
 import site.penn.common.security.TrippleDesUtils;
 
@@ -36,15 +37,18 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 		try {
 			String reqCipherText = IOUtils.toString(request.getInputStream());
 			logger.info("原始请求数据:::" + reqCipherText);
+			if (Strings.isNullOrEmpty(reqCipherText)) {
+				throw new Exception("无请求内容");
+			}
 			long start = System.currentTimeMillis();
 			String reqPlainText = TrippleDesUtils.decrypt(reqCipherText);
-			logger.info("解密请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			logger.info("解密请求数据, 耗时:::" + (System.currentTimeMillis() - start) + "ms");
 			start = System.currentTimeMillis();
 			ReqGson reqGson = new Gson().fromJson(reqPlainText, ReqGson.class);
-			logger.info("封装请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			logger.info("封装请求数据, 耗时:::" + (System.currentTimeMillis() - start) + "ms");
 			start = System.currentTimeMillis();
 			String errorMsg = reqVerificate(reqGson);
-			logger.info("验证请求数据:::" + reqPlainText + ", 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			logger.info("验证请求数据, 耗时:::" + (System.currentTimeMillis() - start) + "ms");
 			if (NO_ERROR_MSG.equalsIgnoreCase(errorMsg)) {
 				logger.info("请求验证通过!准备业务处理.");
 				request.setAttribute("params", reqGson.getParams());
@@ -59,7 +63,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 				logger.debug(e.getMessage());
 				e.printStackTrace();
 			}
-			RespGson resp = new RespGson(RespGson.CODE_WRONG_FORMAT, "参数解析失败,请查看接口文档");
+			RespGson resp = new RespGson(RespGson.CODE_WRONG_FORMAT, "参数格式错误");
 			response.getWriter().print(new GsonBuilder().create().toJson(resp));
 			return false;
 		}
