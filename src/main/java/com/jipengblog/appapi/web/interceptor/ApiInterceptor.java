@@ -43,6 +43,7 @@ public class ApiInterceptor extends HandlerInterceptorAdapter {
 			long start = System.currentTimeMillis();
 			String reqPlainText = TrippleDesUtils.decrypt(reqCipherText);
 			logger.info("解密请求数据, 耗时:::" + (System.currentTimeMillis() - start) + "ms");
+			logger.info("解密结果:::" + reqPlainText);
 			start = System.currentTimeMillis();
 			ReqGson reqGson = new Gson().fromJson(reqPlainText, ReqGson.class);
 			logger.info("封装请求数据, 耗时:::" + (System.currentTimeMillis() - start) + "ms");

@@ -13,7 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jipengblog.appapi.entity.LocationReport;
 import com.jipengblog.appapi.service.LocationService;
-import com.jipengblog.appapi.service.UserService;
+import com.jipengblog.appapi.service.CustomerService;
 import com.jipengblog.appapi.web.utils.RespGson;
 
 @Controller
@@ -23,7 +23,7 @@ public class LocationController extends ParentController {
 	LocationService locationService;
 
 	@Autowired
-	UserService userService;
+	CustomerService userService;
 
 	@RequestMapping(value = "/location/report", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

@@ -26,7 +26,7 @@ public class AppVersion implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long versionId;// 主键标识
+	private Long id;// 主键标识
 
 	@Column(nullable = false, length = 20, unique = true)
 	private String versionName;// 版本名称
@@ -59,7 +59,7 @@ public class AppVersion implements Serializable {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("versionId", versionId).add("versionName", versionName)
+		return MoreObjects.toStringHelper(this).add("id", id).add("versionName", versionName)
 				.add("description", description).add("forcedUpdate", forcedUpdate).add("versionNumber", versionNumber)
 				.add("majorVersion", majorVersion).add("minorVersion", minorVersion)
 				.add("revisionVersion", revisionVersion).add("downloadUrl", downloadUrl).add("createTime", createTime)
@@ -68,12 +68,12 @@ public class AppVersion implements Serializable {
 
 	// getter & setter
 
-	public Long getVersionId() {
-		return versionId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setVersionId(Long versionId) {
-		this.versionId = versionId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	@NotBlank(message = "名称不能为空")

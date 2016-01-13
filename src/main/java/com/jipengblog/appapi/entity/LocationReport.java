@@ -18,14 +18,14 @@ import org.hibernate.validator.constraints.NotBlank;
 import com.google.common.base.MoreObjects;
 
 @Entity
-@Table(name = "report_location")
+@Table(name = "location_report")
 public class LocationReport implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long reportId;// 主键标识
+	private Long id;// 主键标识
 
 	@Column(nullable = false, length = 20)
 	private String mobile;// 手机号码
@@ -104,24 +104,24 @@ public class LocationReport implements Serializable {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("reportId", reportId).add("mobile", mobile)
-				.add("longitude", longitude).add("latitude", latitude).add("altitude", altitude).add("speed", speed)
-				.add("radius", radius).add("coorType", coorType).add("locType", locType)
-				.add("satelliteNumber", satelliteNumber).add("direction", direction).add("address", address)
-				.add("locationDescribe", locationDescribe).add("province", province).add("city", city)
-				.add("district", district).add("street", street).add("streetNumber", streetNumber).add("floor", floor)
-				.add("networkLocationType", networkLocationType).add("cellChangeFlag", cellChangeFlag)
-				.add("operators", operators).add("reportTime", reportTime).toString();
+		return MoreObjects.toStringHelper(this).add("id", id).add("mobile", mobile).add("longitude", longitude)
+				.add("latitude", latitude).add("altitude", altitude).add("speed", speed).add("radius", radius)
+				.add("coorType", coorType).add("locType", locType).add("satelliteNumber", satelliteNumber)
+				.add("direction", direction).add("address", address).add("locationDescribe", locationDescribe)
+				.add("province", province).add("city", city).add("district", district).add("street", street)
+				.add("streetNumber", streetNumber).add("floor", floor).add("networkLocationType", networkLocationType)
+				.add("cellChangeFlag", cellChangeFlag).add("operators", operators).add("reportTime", reportTime)
+				.toString();
 	}
 
 	// getter and setter
 
-	public Long getReportId() {
-		return reportId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setReportId(Long reportId) {
-		this.reportId = reportId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	@NotBlank(message = "手机号不能为空")

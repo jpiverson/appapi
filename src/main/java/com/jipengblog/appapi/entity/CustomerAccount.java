@@ -19,14 +19,14 @@ import com.google.common.base.MoreObjects;
 import site.penn.common.datetime.DatetimeUtils;
 
 @Entity
-@Table(name = "user_account")
-public class UserAccount implements Serializable {
+@Table(name = "customer_account")
+public class CustomerAccount implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long accountId;// 主键标识
+	private Long id;// 主键标识
 
 	@Column(nullable = false, length = 50, unique = true)
 	private String account;// 用户登记的手机号
@@ -61,18 +61,18 @@ public class UserAccount implements Serializable {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("accountId", accountId).add("account", account)
+		return MoreObjects.toStringHelper(this).add("id", id).add("account", account)
 				.add("mobile", mobile).add("email", email).add("description", description).add("mobileVer", mobileVer)
 				.add("emailVer", emailVer).add("enabled", enabled)
 				.add("registerTime", DatetimeUtils.dateToString(registerTime)).toString();
 	}
 
-	public Long getAccountId() {
-		return accountId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setAccountId(Long accountId) {
-		this.accountId = accountId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getAccount() {

@@ -12,15 +12,19 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.common.base.MoreObjects;
+
+import site.penn.common.datetime.DatetimeUtils;
+
 @Entity
-@Table(name = "user_info")
-public class UserInfo implements Serializable {
+@Table(name = "customer_info")
+public class CustomerInfo implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long infoId;// 主键标识
+	private Long id;// 主键标识
 
 	@Column(nullable = false, length = 20, unique = true)
 	private String mobile;// 注册电话
@@ -32,7 +36,7 @@ public class UserInfo implements Serializable {
 	private String avatar;// 头像
 
 	@Column(length = 10)
-	private String regioncode;// 地区代码
+	private String regionCode;// 地区代码
 
 	@Column(length = 100)
 	private String tags;// 标签
@@ -49,16 +53,29 @@ public class UserInfo implements Serializable {
 	@Column(length = 10)
 	private String personality;// 性格
 
+	@Column(length = 64)
+	private String openId; // 第三方ID
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false)
 	private Date lastLoginTime;// 最近一次登录时间
 
-	public Long getInfoId() {
-		return infoId;
+	@Override
+	public String toString() {
+		return MoreObjects.toStringHelper(this).add("id", id).add("mobile", mobile).add("nickName", nickName)
+				.add("avatar", avatar).add("regionCode", regionCode).add("tags", tags).add("gender", gender)
+				.add("location", location).add("generation", generation).add("personality", personality)
+				.add("openId", openId).add("lastLoginTime", DatetimeUtils.dateToString(lastLoginTime)).toString();
 	}
 
-	public void setInfoId(Long infoId) {
-		this.infoId = infoId;
+	// getter & setter
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getMobile() {
@@ -85,12 +102,12 @@ public class UserInfo implements Serializable {
 		this.avatar = avatar;
 	}
 
-	public String getRegioncode() {
-		return regioncode;
+	public String getRegionCode() {
+		return regionCode;
 	}
 
-	public void setRegioncode(String regioncode) {
-		this.regioncode = regioncode;
+	public void setRegionCode(String regionCode) {
+		this.regionCode = regionCode;
 	}
 
 	public String getTags() {
@@ -133,6 +150,14 @@ public class UserInfo implements Serializable {
 		this.personality = personality;
 	}
 
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
+
 	public Date getLastLoginTime() {
 		return lastLoginTime;
 	}
@@ -140,5 +165,4 @@ public class UserInfo implements Serializable {
 	public void setLastLoginTime(Date lastLoginTime) {
 		this.lastLoginTime = lastLoginTime;
 	}
-
 }

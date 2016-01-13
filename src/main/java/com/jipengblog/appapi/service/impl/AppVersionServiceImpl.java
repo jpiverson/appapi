@@ -21,12 +21,12 @@ public class AppVersionServiceImpl implements AppVersionService {
 
 	@Override
 	public AppVersion findByVersionId(Long id) {
-		return baseRepository.getOneByHQL("from AppVersion where versionId = ?0", id);
+		return baseRepository.getOneByHQL("from AppVersion where id = ?0", id);
 	}
 	
 	@Override
 	public AppVersion findNewestVersion() {
-		return baseRepository.getOneByHQL("from AppVersion order by versionId desc");
+		return baseRepository.getOneByHQL("from AppVersion order by id desc");
 	}
 	
 	@Override
@@ -51,7 +51,7 @@ public class AppVersionServiceImpl implements AppVersionService {
 
 	@Override
 	public List<AppVersion> findAll() {
-		return baseRepository.getListByHQL("from AppVersion order by versionId desc");
+		return baseRepository.getListByHQL("from AppVersion order by id desc");
 	}
 
 	@Override

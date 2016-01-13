@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jipengblog.appapi.entity.UserAccount;
-import com.jipengblog.appapi.entity.UserInfo;
-import com.jipengblog.appapi.service.UserService;
+import com.jipengblog.appapi.entity.CustomerAccount;
+import com.jipengblog.appapi.entity.CustomerInfo;
+import com.jipengblog.appapi.service.CustomerService;
 import com.jipengblog.appapi.web.bo.MobsmsBo;
 import com.jipengblog.appapi.web.bo.SuperidBo;
 import com.jipengblog.appapi.web.utils.RespGson;
@@ -30,15 +30,15 @@ import site.penn.common.security.SignatureUtils;
 public class IndexController extends ParentController {
 
 	@Autowired
-	UserService userService;
+	CustomerService userService;
 
 	@RequestMapping(value = "/login/mobsms", method = RequestMethod.POST)
 	@ResponseBody
 	public String loginMobsms(@ModelAttribute("params") String params) {
 		MobsmsBo bo = new Gson().fromJson(params, MobsmsBo.class);
-		UserAccount account = userService.findAccountByMobile(bo.getPhone());
+		CustomerAccount account = userService.findAccountByMobile(bo.getPhone());
 		if (account == null) {
-			account = new UserAccount();
+			account = new CustomerAccount();
 			account.setAccount(bo.getPhone());
 			account.setMobile(bo.getPhone());
 			account.setMobileVer(true);
@@ -50,12 +50,12 @@ public class IndexController extends ParentController {
 			userService.save(account);
 		}
 
-		UserInfo info = userService.findInfoByMobile(bo.getPhone());
+		CustomerInfo info = userService.findInfoByMobile(bo.getPhone());
 		if (info == null) {
-			info = new UserInfo();
+			info = new CustomerInfo();
 			info.setAvatar(bo.getAvatar());
 			info.setNickName(bo.getNickName());
-			info.setRegioncode(bo.getCountry());
+			info.setRegionCode(bo.getCountry());
 			info.setMobile(bo.getPhone());
 		}
 		info.setLastLoginTime(new Date());
@@ -69,10 +69,11 @@ public class IndexController extends ParentController {
 	public String loginSuperid(@ModelAttribute("params") String params) {
 		SuperidBo bo = new Gson().fromJson(params, SuperidBo.class);
 		// 账号
-		UserAccount account = userService.findAccountByMobile(bo.getPhone());
+		CustomerAccount account = userService.findAccountByMobile(bo.getPhone());
 		if (account == null) {
-			account = new UserAccount();
+			account = new CustomerAccount();
 			account.setMobile(bo.getPhone());
+			account.setAccount(bo.getPhone());
 			SignatureUtils utils = new SignatureUtils();
 			account.setPassword(utils.encrypt(bo.getPhone()));
 			account.setRegisterTime(new Date());
@@ -82,14 +83,14 @@ public class IndexController extends ParentController {
 		}
 
 		// 用户信息
-		UserInfo info = userService.findInfoByMobile(bo.getPhone());
+		CustomerInfo info = userService.findInfoByMobile(bo.getPhone());
 		if (info == null) {
-			info = new UserInfo();
+			info = new CustomerInfo();
 			info.setMobile(bo.getPhone());
 		}
 		info.setNickName(bo.getName());
 		info.setAvatar(bo.getAvatar());
-		info.setRegioncode(bo.getRegioncode());
+		info.setRegionCode(bo.getRegioncode());
 		info.setGender(bo.getPersona().getGender());
 		info.setGeneration(bo.getPersona().getGeneration());
 		info.setPersonality(bo.getPersona().getCharacter());

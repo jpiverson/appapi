@@ -3,7 +3,7 @@ package com.jipengblog.appapi.web.utils;
 import org.apache.commons.lang.StringUtils;
 
 import com.google.gson.GsonBuilder;
-import com.jipengblog.appapi.entity.UserAccount;
+import com.jipengblog.appapi.entity.CustomerAccount;
 
 import site.penn.common.base.Constants;
 import site.penn.common.security.SignatureUtils;
@@ -90,7 +90,7 @@ public class ReqGson {
 		req.setTimestamp(timestamp);
 
 		// 设置参数
-		UserAccount user = new UserAccount();
+		CustomerAccount user = new CustomerAccount();
 		user.setMobile("18520808831");
 		String params = new GsonBuilder().create().toJson(user);
 		// 设置参数

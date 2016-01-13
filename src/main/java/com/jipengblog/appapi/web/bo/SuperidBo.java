@@ -9,6 +9,7 @@ public class SuperidBo {
 	private String regioncode;
 	private Persona persona;
 	private String group_uid;
+	private String openId;
 
 	public String getPhone() {
 		return phone;
@@ -32,6 +33,14 @@ public class SuperidBo {
 
 	public String getGroupUid() {
 		return group_uid;
+	}
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
 	}
 
 	public class Persona {
@@ -60,7 +69,6 @@ public class SuperidBo {
 		public String getCharacter() {
 			return character;
 		}
-
 	}
 
 	public class Location {
@@ -79,6 +87,5 @@ public class SuperidBo {
 		public String getCity() {
 			return city;
 		}
-
 	}
 }
