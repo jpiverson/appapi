@@ -85,6 +85,7 @@ public class IndexController extends ParentController {
 			info = new CustomerInfo();
 		}
 		info.setNickName(bo.getName());
+		info.setOpenId(bo.getOpenId());
 		info.setAvatar(bo.getAvatar());
 		info.setRegionCode(bo.getRegioncode());
 		info.setGender(bo.getPersona().getGender());
