@@ -3,11 +3,15 @@ package com.jipengblog.appapi.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -59,10 +63,14 @@ public class CustomerAccount implements Serializable {
 	@Column(nullable = false, updatable = false)
 	private Date registerTime;// 注册时间
 
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "infoId", unique = true)
+	private CustomerInfo customerInfo;
+
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("id", id).add("account", account)
-				.add("mobile", mobile).add("email", email).add("description", description).add("mobileVer", mobileVer)
+		return MoreObjects.toStringHelper(this).add("id", id).add("account", account).add("mobile", mobile)
+				.add("email", email).add("description", description).add("mobileVer", mobileVer)
 				.add("emailVer", emailVer).add("enabled", enabled)
 				.add("registerTime", DatetimeUtils.dateToString(registerTime)).toString();
 	}
@@ -145,6 +153,14 @@ public class CustomerAccount implements Serializable {
 
 	public void setRegisterTime(Date registerTime) {
 		this.registerTime = registerTime;
+	}
+
+	public CustomerInfo getCustomerInfo() {
+		return customerInfo;
+	}
+
+	public void setCustomerInfo(CustomerInfo customerInfo) {
+		this.customerInfo = customerInfo;
 	}
 
 }

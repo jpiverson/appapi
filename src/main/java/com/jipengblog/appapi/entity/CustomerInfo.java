@@ -26,9 +26,6 @@ public class CustomerInfo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;// 主键标识
 
-	@Column(nullable = false, length = 20, unique = true)
-	private String mobile;// 注册电话
-
 	@Column(length = 50)
 	private String nickName;// 昵称
 
@@ -62,10 +59,10 @@ public class CustomerInfo implements Serializable {
 
 	@Override
 	public String toString() {
-		return MoreObjects.toStringHelper(this).add("id", id).add("mobile", mobile).add("nickName", nickName)
-				.add("avatar", avatar).add("regionCode", regionCode).add("tags", tags).add("gender", gender)
-				.add("location", location).add("generation", generation).add("personality", personality)
-				.add("openId", openId).add("lastLoginTime", DatetimeUtils.dateToString(lastLoginTime)).toString();
+		return MoreObjects.toStringHelper(this).add("id", id).add("nickName", nickName).add("avatar", avatar)
+				.add("regionCode", regionCode).add("tags", tags).add("gender", gender).add("location", location)
+				.add("generation", generation).add("personality", personality).add("openId", openId)
+				.add("lastLoginTime", DatetimeUtils.dateToString(lastLoginTime)).toString();
 	}
 
 	// getter & setter
@@ -76,14 +73,6 @@ public class CustomerInfo implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
 	}
 
 	public String getNickName() {

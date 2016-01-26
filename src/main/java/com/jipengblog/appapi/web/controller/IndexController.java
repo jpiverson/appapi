@@ -47,19 +47,18 @@ public class IndexController extends ParentController {
 			account.setEnabled(true);
 			account.setDescription("mob短信注册");
 			account.setRegisterTime(new Date());
-			userService.save(account);
 		}
 
-		CustomerInfo info = userService.findInfoByMobile(bo.getPhone());
+		CustomerInfo info = account.getCustomerInfo();
 		if (info == null) {
 			info = new CustomerInfo();
 			info.setAvatar(bo.getAvatar());
 			info.setNickName(bo.getNickName());
 			info.setRegionCode(bo.getCountry());
-			info.setMobile(bo.getPhone());
 		}
 		info.setLastLoginTime(new Date());
-		userService.save(info);
+		account.setCustomerInfo(info);
+		userService.saveOrUpdate(account);
 		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, account);
 		return new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create().toJson(resp);
 	}
@@ -78,15 +77,12 @@ public class IndexController extends ParentController {
 			account.setPassword(utils.encrypt(bo.getPhone()));
 			account.setRegisterTime(new Date());
 			account.setEnabled(true);
-			account.setDescription("一登注册");
-			userService.save(account);
+			account.setDescription("一登刷脸注册");
 		}
 
-		// 用户信息
-		CustomerInfo info = userService.findInfoByMobile(bo.getPhone());
+		CustomerInfo info = account.getCustomerInfo();
 		if (info == null) {
 			info = new CustomerInfo();
-			info.setMobile(bo.getPhone());
 		}
 		info.setNickName(bo.getName());
 		info.setAvatar(bo.getAvatar());
@@ -103,7 +99,8 @@ public class IndexController extends ParentController {
 		}
 		info.setTags(tags.toString());
 		info.setLastLoginTime(new Date());
-		userService.saveOrUpdate(info);
+		account.setCustomerInfo(info);
+		userService.saveOrUpdate(account);
 
 		resp = new RespGson(RespGson.CODE_OK, RespGson.DESC_OK, account);
 		return new GsonBuilder().create().toJson(resp);

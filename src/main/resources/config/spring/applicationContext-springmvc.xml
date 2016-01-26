@@ -1,4 +1,5 @@
-	<beans xmlns="http://www.springframework.org/schema/beans"
+
+<beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:task="http://www.springframework.org/schema/task" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -31,12 +32,12 @@
 			</list>
 		</property>
 	</bean>
-	
+
 	<context:component-scan base-package="com.jipengblog.appapi" />
 	<mvc:annotation-driven />
 	<tx:annotation-driven />
 	<task:annotation-driven />
-	
+
 	<mvc:resources location="/WEB-INF/static/" mapping="/static/**" />
 	<mvc:resources location="/WEB-INF/tlds/" mapping="/tlds/**" />
 	<bean
@@ -53,10 +54,10 @@
 
 	<!--设置Session拦截器 -->
 	<mvc:interceptors>
-	    <mvc:interceptor>  
-           <mvc:mapping path="/api/**" />
-           <bean class="com.jipengblog.appapi.web.interceptor.ApiInterceptor"></bean>  
-        </mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/**" />
+			<bean class="com.jipengblog.appapi.web.interceptor.ApiInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
 
 	<!-- spring注入工具类 -->

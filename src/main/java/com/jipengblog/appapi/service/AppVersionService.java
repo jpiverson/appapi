@@ -10,7 +10,7 @@ import com.jipengblog.appapi.repository.PageResults;
 
 public interface AppVersionService {
 
-	AppVersion findByVersionId(Long id);
+	AppVersion findById(Long id);
 	
 	AppVersion findNewestVersion();
 	

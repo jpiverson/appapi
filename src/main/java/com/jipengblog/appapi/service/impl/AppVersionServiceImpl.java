@@ -20,7 +20,7 @@ public class AppVersionServiceImpl implements AppVersionService {
 	private BaseRepository<AppVersion, Long> baseRepository;
 
 	@Override
-	public AppVersion findByVersionId(Long id) {
+	public AppVersion findById(Long id) {
 		return baseRepository.getOneByHQL("from AppVersion where id = ?0", id);
 	}
 	
